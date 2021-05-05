@@ -1,0 +1,65 @@
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
+i=int(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors.\n"))
+if(i==0):
+  print(rock)
+elif(i==1):
+  print(paper)
+else:
+  print(scissors)
+
+import random
+r=random.randint(0,2)
+print("computer choose")
+if(r==0):
+  print(rock)
+elif(r==1):
+  print(paper)
+else:
+  print(scissors)
+
+if(i==0):
+  if(r==0):
+    print("draw")
+  elif(r==1):
+    print("you loose")
+  else:
+    print("you won")
+elif(i==1):
+  if(r==1):
+    print("draw")
+  elif(r==0):
+    print("you won")
+  else:
+    print("you loose")
+else:
+  if(r==2):
+    print("draw")
+  elif(r==1):
+    print("you won")
+  else:
+    print("you loose")
