@@ -1,0 +1,58 @@
+from art import logo
+from art import vs
+from game_data import data
+import random
+from replit import clear
+print(logo)
+list_size=len(data)
+# print(list_size)
+# no1=random.randint(0,list_size -1)
+# no2=random.randint(0,list_size -1)
+# print(no)
+count =0
+# print(data[no1]['name'])
+# print(f"compare A: {data[no1]['name']}, a {data[no1]['description']}, from {data[no1]['country']}")
+# print(vs)
+# print(f"compare B: {data[no2]['name']}, a {data[no2]['description']}, from {data[no2]['country']}")
+# print(data[no1]['follower_count'])
+# print(data[no2]['follower_count'])
+# more_followes=input("who has more more_followes? Type 'A' or 'B': ").lower()
+# no_1=data[no1]['follower_count']
+# no_2=data[no2]['follower_count']
+# if(more_followes == 'b' and no_2>=no_1):
+#   count=count+1
+#   print(f"you are right! current score: {count}")
+# elif(more_followes == 'a' and no_1>no_2):
+#   count=count+1
+#   print(f"you are right! current score: {count}")
+# else:
+#   print(f"Sorry, that wrong. Final score {count}")
+#   count=0
+
+no2=random.randint(0,list_size -1)
+repeat=1
+while(repeat==1):
+  no1=no2
+  no2=random.randint(0,list_size -1)
+  print(f"compare A: {data[no1]['name']}, a {data[no1]['description']}, from {data[no1]['country']}")
+  print(vs)
+  print(f"compare B: {data[no2]['name']}, a {data[no2]['description']}, from {data[no2]['country']}")
+  # print(data[no1]['follower_count'])
+  # print(data[no2]['follower_count'])
+  more_followes=input("who has more more_followes? Type 'A' or 'B': ").lower()
+  clear()
+  print(logo)
+  no_1=data[no1]['follower_count']
+  no_2=data[no2]['follower_count']
+  if(more_followes == 'b' and no_2>=no_1):
+    count=count+1
+    print(f"you are right! current score: {count}")
+    repeat=1
+  elif(more_followes == 'a' and no_1>=no_2):
+    count=count+1
+    print(f"you are right! current score: {count}")
+    repeat=1
+  else:
+    print(f"Sorry, that wrong. Final score {count}")
+    count=0
+    repeat=0
