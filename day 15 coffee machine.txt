@@ -1,0 +1,81 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+            "milk":0,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+# print(MENU["latte"]["water"])
+
+
+
+
+from meny import resources
+from meny import MENU
+repeat = True
+money_repeat=True
+total_money=0
+while(repeat == True):
+  order=input(" What would you like? (espresso/latte/cappuccino):").lower()
+  if(order=="report"):
+    for i in resources:
+      print(f"{i} : {resources[i]}")
+    print(f"Money: $ {total_money}")
+  else:
+    if(money_repeat== True):
+      print("Please insert coin.")
+      quarter=int(input("How many quarters?: "))
+      dimes=int(input("How many dimes?: "))
+      nickles=int(input("How many nickles?: "))
+      pennies=int(input("How many pennies?: "))
+      money_repeat=False 
+    total_money=0.25*quarter + 0.10 * dimes + 0.05 * nickles + 0.01 * pennies
+    # print(f"Money: $ {total_money}")
+    # print(total_money)
+    if(total_money< MENU[order]["cost"]):
+      print("Sorry that's not enough money. Money refunded.")
+    else:
+        if(resources["coffee"] > MENU[order]['ingredients']['coffee'] and resources["water"] > MENU[order]['ingredients']['water'] and resources["milk"] > MENU[order]['ingredients']['milk']):
+          money_left=total_money-MENU[order]["cost"]
+          money_left=round(money_left,2)
+          total_money=money_left
+          print(f"Here is ${money_left} in change")
+          print(f"Here is your {order} Enjoy.")
+          # print(MENU[order]["cost"])
+          resources["water"]=resources["water"]-MENU[order]['ingredients']['water']
+          resources["milk"]=resources["milk"]-MENU[order]['ingredients']['milk']
+          resources["coffee"]=resources["coffee"]-MENU[order]['ingredients']['coffee']
+        elif resources["coffee"] < MENU[order]['ingredients']['coffee']:
+          print("There is not enough coffee")
+        elif resources["water"] < MENU[order]['ingredients']['water']:
+          print("There is not enough water")
+        elif resources["milk"] > MENU[order]['ingredients']['milk']:
+          print("There is not enough milk")
+# print(MENU["latte"]['ingredients']['water'])
+# print(resources["water"]-MENU["latte"]["water"])
