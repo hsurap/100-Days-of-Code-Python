@@ -1,0 +1,37 @@
+import turtle
+from turtle import Turtle , Screen
+import random
+race=False
+screen =Screen()
+screen.setup(width=500,height=400)
+colors=["red","orange","yellow","green","blue","purple"]
+bet=screen.textinput(title="Make your bet",prompt="Which turtle will win ? Enter a color")
+if bet:
+    race=True
+all=[]
+for i in range(0,len(colors)):
+    tim = Turtle(shape="turtle")
+    tim.color(colors[i])
+    tim.penup()
+    tim.goto(-230, -100+i*50)
+    all.append(tim)
+
+
+# tim=Turtle(shape="turtle")
+# tim.penup()
+while race:
+    for turtle in all:
+        if turtle.xcor()>220:
+            race=False
+            winning=turtle.pencolor()
+            if(winning==bet):
+                print("u win")
+            else:
+                print("u lost")
+            print("winner="+ winning)
+        dist=random.randint(5,10)
+        turtle.forward(dist)
+
+# print(bet)
+
+screen.exitonclick()
