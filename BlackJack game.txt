@@ -1,0 +1,106 @@
+from replit import clear
+from art import logo
+import random
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+again=True
+while again:
+  play=input("Do you want to play a game of blackjack? type y or n ")
+  if play=="n":
+    again=False
+  else:
+    clear()
+    print(logo)
+
+    my_card1=random.choice(cards)
+    my_card2=random.choice(cards)
+    my_card_list=[my_card1,my_card2]
+
+    computer_1=random.choice(cards)
+    computer_card_list=[computer_1]
+
+    print(f"\tYour cards: {my_card_list} ,current score is {sum(my_card_list)}")
+    print(f"\tComputer first card : {computer_1}")
+    while sum(computer_card_list) < 17:
+      computer_card_list.append(random.choice(cards))
+    # print(computer_card_list)
+    next_card=input("Type 'y' to get another card , type n to pass ")
+    repeat=True
+    while repeat:
+      if(next_card=="n"):
+        repeat =False
+        print(f"You final hand: {my_card_list} and final score is {sum(my_card_list)}")
+        print(f"Computer final hand : {computer_card_list}, final score is : {sum(computer_card_list)}")
+        if sum(my_card_list) >21 or sum(my_card_list) <sum(computer_card_list) and sum(computer_card_list)<=21:
+          print("you loose")
+        elif sum(my_card_list) ==sum(computer_card_list):
+          print("Draw")
+        else:
+          print("You win")
+        break;
+      else:
+        new_card=random.choice(cards)
+        if new_card !=11:
+          my_card_list.append(new_card)
+          if(sum(my_card_list)>21):
+            repeat=False
+            print(f"You final hand: {my_card_list} and final score is {sum(my_card_list)}")
+            print(f"Computer final hand : {computer_card_list}, final score is : {sum(computer_card_list)}")
+            print("You went over you loose")
+            break;
+          else:
+            print(f"\tYour cards: {my_card_list} ,current score is {sum(my_card_list)}")
+            print(f"\tComputer first card : {computer_1}")
+        else:
+          if sum(my_card_list) + 11 <=21:
+            my_card_list.append(new_card)
+          else:
+            my_card_list.append(1)
+          if(sum(my_card_list)>21):
+            repeat=False
+            print(f"You final hand: {my_card_list} and final score is {sum(my_card_list)}")
+            print(f"Computer final hand : {computer_card_list}, final score is : {sum(computer_card_list)}")
+            print("You went over you loose")
+            break;
+          else:
+            print(f"\tYour cards: {my_card_list} ,current score is {sum(my_card_list)}")
+            print(f"\tComputer first card : {computer_1}")
+      
+      next_card=input("Type 'y' to get another card , type n to pass ")
+      if(new_card=="n"):
+        repeat=False
+          
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
