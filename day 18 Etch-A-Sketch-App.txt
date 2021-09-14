@@ -1,0 +1,24 @@
+from turtle import Turtle,Screen
+
+def move_forward():
+    t.forward(15)
+def move_backward():
+    t.backward(15)
+def screen_clear():
+    my_screen.reset()
+def clockwise():
+    t.setheading(t.heading()-5)
+def anticlockwise():
+    t.setheading(t.heading() + 5)
+
+t=Turtle()
+my_screen=Screen()
+my_screen.listen()
+
+my_screen.onkey(move_forward,"w")
+my_screen.onkey(move_backward,"s")
+my_screen.onkey(screen_clear,"c")
+my_screen.onkey(clockwise,"d")
+my_screen.onkey(anticlockwise,"a")
+
+my_screen.exitonclick()
