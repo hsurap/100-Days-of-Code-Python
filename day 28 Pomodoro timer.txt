@@ -1,0 +1,98 @@
+import tkinter
+# ---------------------------- CONSTANTS ------------------------------- #
+PINK = "#e2979c"
+RED = "#e7305b"
+GREEN = "#9bdeac"
+YELLOW = "#f7f5dd"
+FONT_NAME = "Courier"
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
+LONG_BREAK_MIN = 20
+reps=1
+my_timer=None
+
+# ---------------------------- TIMER RESET ------------------------------- # 
+def reset_timer():
+    window.after_cancel(my_timer)
+    canvas.itemconfig(timer_text,text="00:00")
+    label1["text"]="Timer"
+    label1["text"] = ""
+    global reps
+    reps=0
+# ---------------------------- TIMER MECHANISM ------------------------------- # 
+def start_timer():
+    work_time=WORK_MIN*60
+    short_break=SHORT_BREAK_MIN*60
+    long_break=LONG_BREAK_MIN*60
+    global reps
+    if(reps==1 or reps==3 or reps==5 or reps==7):
+        count_down(work_time)
+        label1["text"]="Timer"
+        label1.config(fg=GREEN)
+    elif (reps == 2 or reps == 4 or reps == 6):
+        count_down(short_break)
+        label1["text"] = "Break"
+        label1.config(fg=PINK)
+    else:
+        count_down(long_break)
+        label1["text"] = "Break"
+        label1.config(fg=RED)
+    reps+=1
+
+# ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
+def count_down(count):
+    # print(count)
+    min=int(count/60)
+    sec=count%60
+    if sec<10:
+        sec="0"+str(sec)
+    canvas.itemconfig(timer_text,text=f"{min}:{sec}")
+    if count>0:
+        my_timer=window.after(1000,count_down,count-1)
+    else:
+        start_timer()
+        global reps
+        ans=int(reps/2)
+        if(ans==1):
+            label2["text"] = "✓"
+        elif(ans==2):
+            label2["text"] = "✓✓"
+        else:
+            label2["text"] = "✓✓✓"
+# ---------------------------- UI SETUP ------------------------------- #
+
+
+# def increase():
+#     label2["text"]="✓"
+
+# def say_something(thing):
+#     print(thing)
+
+window=tkinter.Tk()
+window.title("Pomodoro")
+window.config(padx=100,pady=50)
+window.config(bg=YELLOW)
+
+
+# window.after(1000,say_something,"hello")
+
+canvas=tkinter.Canvas( width = 200, height = 224,bg=YELLOW,highlightthickness=0)
+img = tkinter.PhotoImage(file="tomato.png")
+canvas.create_image(100, 112, image=img)
+timer_text=canvas.create_text(100,130,text="00:00",fill="white",font=(FONT_NAME,32,"bold"))
+canvas.grid(row=1,column=1)
+
+
+label1=tkinter.Label(text="Timer",fg=GREEN,font=(FONT_NAME,32,"bold"),bg=YELLOW)
+label1.grid(row=0,column=1)
+
+label2=tkinter.Label(text="",fg=GREEN,font=(FONT_NAME,32,"bold"),bg=YELLOW)
+label2.grid(row=3,column=1)
+
+button1=tkinter.Button(text="Start",highlightthickness=0,command=start_timer)
+button1.grid(row=2,column=0)
+
+button2=tkinter.Button(text="Reset",highlightthickness=0,command=reset_timer)
+button2.grid(row=2,column=2)
+
+window.mainloop()
