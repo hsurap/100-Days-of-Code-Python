@@ -1,0 +1,55 @@
+import os
+import virtualenv
+import requests
+import datetime as dt
+
+NUTRITION_ID=""
+NUTRITION_APPLICATION_KEY=""
+EXERCISE_ENDPOINT=""
+SHEETS_ENDPOINT=""
+
+today=dt.datetime.now()
+today_date=today.strftime("%d/%m/%Y")
+curr_time=today.strftime("%H:%M:%S")
+# print(today_date)
+# print(curr_time)
+
+headers={
+    "x-app-id":NUTRITION_ID,
+    "x-app-key":NUTRITION_APPLICATION_KEY,
+}
+
+user_exer=input("Tell me what exercise you did: ")
+
+exer_params={
+    "query":user_exer,
+    "gender":"male",
+    "weight_kg":76.5,
+    "height_cm":164.64,
+    "age":19,
+}
+
+response=requests.post(url=EXERCISE_ENDPOINT,json=exer_params,headers=headers)
+result=response.json()
+exer_name=result["exercises"][0]["name"].title()
+exer_dur=result["exercises"][0]["duration_min"]
+exer_cal=result["exercises"][0]["nf_calories"]
+
+print(exer_name , exer_cal , exer_dur)
+
+sheet_param={
+    "workout":{
+        "date":today_date,
+        "time":curr_time,
+        "exercise":exer_name,
+        "duration":exer_dur,
+        "calories":exer_cal,
+    }
+}
+
+sheet_header={
+    "Authorization": ""
+}
+
+sheet_response=requests.post(url=SHEETS_ENDPOINT,json=sheet_param,headers=sheet_header)
+print(sheet_response.text)
