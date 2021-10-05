@@ -1,0 +1,55 @@
+import requests
+import datetime as dt
+PIXELA_ENDPOINT="https://pixe.la/v1/users"
+PIXELA_TOKEN="1234567mcvmczvzg89"
+PIXELA_USERNAME="hsurap"
+GRAPH_ID="graph786"
+
+user_param={
+    # token act as an apikey
+    "token": PIXELA_TOKEN,
+    "username": PIXELA_USERNAME,
+    "agreeTermsOfService": "yes",
+    "notMinor": "yes",
+}
+
+# response=requests.post(url=PIXELA_ENDPOINT,json=user_param)
+# print(response.text)
+
+GRAPH_ENDPOINT=f"{PIXELA_ENDPOINT}/{PIXELA_USERNAME}/{GRAPH_ID}"
+
+graph_param={
+    "id": "graph786",
+    "name" : "cycling graph",
+    "unit" : "Km",
+    "type" : "float",
+    "color" : "momiji",
+}
+
+headers={
+    "X-USER-TOKEN":PIXELA_TOKEN,
+}
+
+today=dt.datetime.now()
+
+# response=requests.post(url=GRAPH_ENDPOINT,json=graph_param,headers=headers)
+# print(response.text)
+
+POST_PIXEL_ENDPOINT=f"{PIXELA_ENDPOINT}/{PIXELA_USERNAME}/graphs/{GRAPH_ID}"
+# print(today.strftime("%Y%m%d"))
+graph_post_param={
+    "date": today.strftime("%Y%m%d"),
+    "quantity": input("how many km ?"),
+}
+
+response=requests.post(url=POST_PIXEL_ENDPOINT,headers=headers,json=graph_post_param)
+print(response.text)
+
+UPDATE_PIXEL_ENDPOINT=f"https://pixe.la/v1/users/{PIXELA_USERNAME}/graphs/{GRAPH_ID}/{today.strftime('%Y%m%d')}"
+
+update_params={
+    "quantity":"5.5",
+}
+#
+# responese=requests.put(url=UPDATE_PIXEL_ENDPOINT,json=update_params,headers=headers)
+# print(responese.text)
