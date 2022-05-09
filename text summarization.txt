@@ -1,0 +1,124 @@
+import nltk
+# nltk.download()
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize,sent_tokenize
+
+#upload and mail
+import tkinter as tk
+from tkinter import *
+from tkinter import filedialog
+from tkinter.filedialog import askopenfile
+import smtplib
+
+#my window
+my_w = tk.Tk()
+my_w.geometry("700x400")
+my_w.title('WELCOME TO TEXT SUMMARIZATION')
+my_font1=('times',18,'bold')
+my_font2=('times',25,'bold')
+email=""
+
+#my window frontend content
+l1 = tk.Label(my_w,text='Summarize any text with a click ',width=30,font=my_font1)
+l1.place(x=150,y=50)
+
+l2 = tk.Label(my_w,text='Email_id', width=10 )
+l2.place(x=240,y=120)
+
+str1=tk.StringVar(value='xyz@gmail.com')
+e1 = tk.Entry(my_w,width=20,bg='white',textvariable=str1)
+e1.place(x=330,y=120)
+
+b1=tk.Button(my_w,text='UPLOAD AND SUBMIT',font=my_font2,command=lambda:collect_data())
+b1.place(x=170,y=200)
+
+def collect_data():
+    email=e1.get()
+    # print((email))
+    file1 = filedialog.askopenfilename()
+    file = open(file1, 'r')
+    text = file.read()
+    # print(text)
+    # print('-----------------------------------------------------')
+    ans=text_summar(text)
+    # print(ans)
+    send_mail(e1.get(),ans)
+    my_w.destroy()
+
+def send_mail(email,message):
+    my_email = "graghsurap@gmail.com"
+    password = "ilikemyself123"
+    # print(message)
+    connection = smtplib.SMTP("smtp.gmail.com", port=587)
+    connection.starttls()
+    connection.login(user=my_email, password=password)
+    connection.sendmail(from_addr=my_email, to_addrs=email, msg=f"Subject:SUMMARIZED DATA\n\n{message}")
+    connection.close()
+
+# file=open('001.txt','r')
+# text=file.read()
+# file.close()
+# print(text)
+
+#pre-processing
+def text_summar(text):
+    sent_tokens=nltk.sent_tokenize(text)
+    # print(sent_tokens)
+    word_tokens=nltk.word_tokenize(text)
+    # print(word_tokens)
+    word_tokens_lower=[word.lower() for word in word_tokens]
+    # print(word_tokens_lower)
+    stopWords=list(set(stopwords.words('english')))
+    # print(stopWords)
+
+    word_tokens_refined=[name for name in word_tokens_lower if name not  in stopWords]
+    # print(word_tokens_refined)
+    # print(len(word_tokens))
+    # print(len(word_tokens_refined))
+
+    #compute frequency of each word
+    FreqTable={}
+    for word in word_tokens_refined:
+        if word in FreqTable:
+            FreqTable[word]+=1
+        else:
+            FreqTable[word]=1
+    # print(FreqTable)
+    # print(len(FreqTable))
+
+    #compute the score of each sentence
+    sentenceValue={}
+    for sentence in sent_tokens:
+        sentenceValue[sentence]=0
+        for word,freq in FreqTable.items():
+            if word in sentence.lower():
+                sentenceValue[sentence]+=freq
+
+    # print(sentenceValue)
+    # print(sentenceValue.values())
+
+    #generate the summary
+    #if a sentence a have highervalue than avg then we will add it into summary
+    sum=0
+    for sentence in sentenceValue:
+        sum+=sentenceValue[sentence]
+    avg=int(sum/len(sentenceValue))
+    # print(avg)
+
+    #print summary
+    summary=""
+    for sentence in sent_tokens:
+        if sentenceValue[sentence] > 1.2*avg:
+            summary+= " " + sentence
+    # print(summary)
+    return  summary
+    # return "fghjk fghjkl "
+    #return " parush Ad sales boost Time Warner profit Quarterly profits at US media giant TimeWarner jumped 76% to1.13bn  for the three months to December, from $639m year-earlier. However, the company said AOL's underlying profit before exceptional items rose 8% on the back of stronger internet advertising revenues. But its film division saw profits slump 27% to $284m, helped by box-office flops Alexander and Catwoman, a sharp contrast to year-earlier, when the third and final film in the Lord of the Rings trilogy boosted results. For the full-year, TimeWarner posted a profit of $3.36bn, up 27% from its 2003 performance, while revenues grew 6.4% to $42.09bn"
+
+
+my_w.mainloop()
+
+
+
+
+
